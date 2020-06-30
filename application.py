@@ -6,7 +6,7 @@ from time import ctime
 
 app = Flask(__name__,static_url_path='/static')
 # app = Flask(__name__,static_folder="/static")
-app.config["SECRET_KEY"] = "mysecret!"
+app.config["SECRET_KEY"] = "mysecret!!!"
 socketio = SocketIO(app)
 
 # python3 -m venv env
@@ -18,9 +18,9 @@ socketio = SocketIO(app)
 users={}
 rooms={"General Room":[]}
 
-@app.before_request
-def make_session_permanent():
-    session.permanent = True
+# @app.before_request
+# def make_session_permanent():
+#     session.permanent = True
 
 @app.route("/login",methods=["GET","POST"])
 def login():
@@ -114,4 +114,5 @@ def create(data):
         emit('room_created',name, broadcast = True)
 
 if __name__ == '__main__':
-    app.run()
+    socketio.run(app,debug=True)
+    #app.run()
