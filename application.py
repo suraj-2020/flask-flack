@@ -4,8 +4,8 @@ from flask import Flask,render_template,request,session
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from time import ctime
 
-# app = Flask(__name__,static_url_path='/static',static_folder="/static")
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='/static',static_folder="/static")
+# app = Flask(__name__)
 app.config["SECRET_KEY"] = "mysecret!"
 socketio = SocketIO(app)
 
