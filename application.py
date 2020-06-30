@@ -4,7 +4,7 @@ from flask import Flask,render_template,request,session
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from time import ctime
 
-app = Flask(__name__,static_url_path="",static_folder="project2/static",template_folder="project2/template")
+app = Flask(__name__,static_url_path="",static_folder="web/static",template_folder="web/template")
 app.config["SECRET_KEY"] = os.environ.get('SECRET')
 socketio = SocketIO(app)
 
