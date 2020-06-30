@@ -114,5 +114,5 @@ def create(data):
         emit('room_created',name, broadcast = True)
 
 if __name__ == '__main__':
-    #socketio.run(app,debug=True)
-    app.run()
+    socketio.run(app,debug=True)
+    #app.run()
