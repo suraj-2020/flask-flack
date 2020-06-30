@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask,render_template,request,session
+from flask import Flask,render_template,request,session,redirect,url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from time import ctime
 
@@ -34,7 +34,7 @@ def login():
         if name in users:
             if users[name]==passw:
                 #session['user']=name
-                return render_template('index.html',rooms=rooms)
+                return redirect(url_for('chat'))
         message="Invalid Username or Password"
         return render_template("test_login.html",message=message)
 
@@ -59,7 +59,11 @@ def signup():
             return render_template('test_signup.html',message=message)
         users[name]=passw
         #session['user']=name
-        return render_template('index.html',rooms=rooms)
+        return redirect(url_for('chat'))
+
+@app.route("/chat")
+def chat():
+    return render_template('index.html',rooms=rooms)
 
 @app.route("/logout")
 def logout():
