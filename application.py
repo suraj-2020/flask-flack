@@ -6,7 +6,7 @@ from time import ctime
 
 app = Flask(__name__,static_url_path='/static')
 # app = Flask(__name__,static_folder="/static")
-app.config["SECRET_KEY"] = "mysecret!!!"
+app.config["SECRET_KEY"] = "mysecrets!!!"
 socketio = SocketIO(app)
 
 # python3 -m venv env
@@ -18,14 +18,14 @@ socketio = SocketIO(app)
 users={}
 rooms={"General Room":[]}
 
-# @app.before_request
-# def make_session_permanent():
-#     session.permanent = True
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
 
 @app.route("/login",methods=["GET","POST"])
 def login():
-    # if session.get('user'):
-    #     return render_template("index.html",rooms=rooms)
+    if session.get('user'):
+        return render_template("index.html",rooms=rooms)
     if request.method=="GET":
         return render_template("test_login.html")
     else:
@@ -33,7 +33,7 @@ def login():
         passw=request.form.get('pass')
         if name in users:
             if users[name]==passw:
-                #session['user']=name
+                session['user']=name
                 return redirect(url_for('chat'))
         message="Invalid Username or Password"
         return render_template("test_login.html",message=message)
@@ -41,8 +41,8 @@ def login():
 
 @app.route("/signup",methods=["GET","POST"])
 def signup():
-    # if session.get('user'):
-    #     return render_template("index.html",rooms=rooms)
+    if session.get('user'):
+        return render_template("index.html",rooms=rooms)
     if request.method=="GET":
         return render_template("test_signup.html")
     else:
@@ -58,7 +58,7 @@ def signup():
             message="username taken, try another name"
             return render_template('test_signup.html',message=message)
         users[name]=passw
-        #session['user']=name
+        session['user']=name
         return redirect(url_for('chat'))
 
 @app.route("/chat")
