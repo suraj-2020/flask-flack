@@ -5,12 +5,14 @@ var user = '';
 function joinroom(room) {
     socket.emit("join", { "user": user, "room": curr_room });
 }
-
+// clear the chat screen as chats of new room will be added
 function leaveroom(room) {
     document.querySelector('.chat').innerHTML = '';
     socket.emit('leave', { "user": user, "room": curr_room })
 }
 
+//when creating the p tag for the rooms, p tag itself is passed as parameter(this).
+//onlclick on p tag will fire this function
 function func(p) {
     var room = p.innerHTML;
     if (room == curr_room) {
@@ -22,7 +24,7 @@ function func(p) {
         joinroom(curr_room);
     }
 }
-
+//taking out name and time 
 function differ(msg) {
     l = []
     msg1 = ""
@@ -44,6 +46,9 @@ function differ(msg) {
     return l;
 }
 
+//function for adding chat in the div. first if block is for entry and exit of user, second is for messages.
+//"xyz entered the chat"[-1] index will always be 't'
+//made function because this will be used in multiple socket event
 function add_msg(msg){
     siz=msg.length
     if(msg[siz-1]=="t")
@@ -78,7 +83,7 @@ function add_msg(msg){
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    
+    //on connect sends to 'message' which returns the user that was set by session to 'first' via emit by server
     socket.on('connect', () => {
         socket.send();
     })
@@ -90,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         joinroom(curr_room);
     })
 
+    //here is the logic as to why new users are 'not' able to see old messages, because it updates all clients alike
     socket.on('join_message', lis => {
         if (document.querySelector('.chat').innerHTML == '') {
             for (i = 0; i < lis.length; i++) {
@@ -124,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.rooms').append(p);
     })
 
+    //this colan is used to differntiate user and message in the function
     document.querySelector('#cb1').onclick = () => {
         let m = document.querySelector('#ctext').value;
         m = user + ":\n" + m;
@@ -138,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#rtext').value='';
     }
 
+    //event listner on buttons to click the button on enter key press also
     let msg = document.querySelector('#rtext');
     msg.addEventListener('keyup', event=>{
         event.preventDefault();
