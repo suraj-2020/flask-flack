@@ -2,6 +2,16 @@
 
 Web Programming with Python and JavaScript
 
-Set up a virtual enviroment and pip install requirements file
+flask socketio is used for creating the app
+Set up a virtual enviroment and pip install requirements file and directly run application.py
+
+/signup is the first route so ad that in the url. 
+
+Open this is two private windows as session is used. for checking if that chat works.
+
+------To fix-------
+
+Auto scroll to be added in the chat container
+new user is not able to see old chats, fixing that.
 
 
